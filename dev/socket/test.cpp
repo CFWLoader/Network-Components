@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	Clown::Socket socket;
+	clown::Socket socket;
 
 	cout << socket.getSocketFileDescriptor() << endl;
 

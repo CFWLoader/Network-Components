@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-namespace Clown
+namespace clown
 {	
 	class Socket{
 		public:
