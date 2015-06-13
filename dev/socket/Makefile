@@ -1,6 +1,8 @@
 CC = g++
 
-TEST_FILES = test
+TEST_FILE_PATH = ./test
+
+TEST_FILES = $(TEST_FILE_PATH)/test
 
 FALGS = -std=c++11 -g -Wall
 

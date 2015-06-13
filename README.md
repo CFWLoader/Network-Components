@@ -7,3 +7,8 @@
 
 I'm still thinking how to organize this project.Especially the test units.<br/>
 Java object design is worth being referenced, so you will see some java style.<br/>
+
+## This version
+Add a class -- Noncopyable, this class is mainly for being inherited by the class that forbidding copy.<br/>
+
+## Update History
