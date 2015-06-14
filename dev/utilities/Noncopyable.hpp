@@ -1,11 +1,16 @@
 #ifndef NONCOPYABLE_HPP_
 #define NONCOPYABLE_HPP_
 
-namespace clown{
-	namespace utilities{
-		class Noncopyable{
+#include "GlobalConfigurations.h"
+
+namespace clown
+{
+	namespace utilities
+	{
+		class Noncopyable
+		{
 			public:
-#if __cplusplus >= 201103L
+#ifdef CPP11
 				Noncopyable(const Noncopyable&) = delete;
 				Noncopyable& operator=(const Noncopyable&) = delete;
 #else

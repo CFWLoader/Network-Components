@@ -1,13 +1,16 @@
 CC = g++
 
-FALGS = -std=c++11 -g -Wall
+FLAGS = -std=c++11 -g -Wall -c
 
-TARGET_FILES = *.o
+TARGET_FILES = FileLogger.o
 
 all: $(TARGET_FILES)
+
+FileLogger.o: FileLogger.cpp FileLogger.h
+	$(CC) -o $@ $(FLAGS) $<
 
 clean:
 	rm -rf *.o
 
 cleanall:
-	rm -rf *.o $(TEST_FILES)
+	rm -rf $(TEST_FILES)
