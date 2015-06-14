@@ -12,6 +12,7 @@ I'm still thinking how to organize this project.Especially the test units.<br/>
 Java object design is worth being referenced, so you will see some java style.<br/>
 
 #This version
+Add utility -- AppendLogger, a class that providing the interface to append string to a file.(2015-06-14)<br/>
 
 ## Update History
 Add a class -- Noncopyable, this class is mainly for being inherited by the class that forbidding copy.(2015-06-13)<br/>

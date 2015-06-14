@@ -10,12 +10,12 @@ namespace clown
 		class Noncopyable
 		{
 			public:
+				Noncopyable(){}
+				~Noncopyable(){}
 #ifdef CPP11
 				Noncopyable(const Noncopyable&) = delete;
 				Noncopyable& operator=(const Noncopyable&) = delete;
 #else
-				Noncopyable(){}
-				~Noncopyable(){}
 			private:
 				Noncopyable(const Noncopyable&){}
 				Noncopyable& operator=(const Noncopyable&){}
