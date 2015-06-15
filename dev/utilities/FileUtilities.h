@@ -26,7 +26,7 @@ namespace clown
 
 		private:
 
-			write(const char*, const size_t);
+			size_t write(const char*, const size_t);
 
 			FILE* file;
 
