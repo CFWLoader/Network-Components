@@ -10,19 +10,21 @@
 
 namespace clown
 {
-	namespace utilities
+	namespace basis
 	{
-		class AppendLogger : public Noncopyable
+		using namespace utilities;
+
+		class File : public Noncopyable
 		{
 		public:
 
-			explicit AppendLogger(const std::string&);
+			explicit File(const std::string&);
 
 			size_t append(const char*, const size_t);
 
 			void flush();
 
-			~AppendLogger();
+			~File();
 
 		private:
 
@@ -32,7 +34,7 @@ namespace clown
 
 			size_t writtenBytes;
 
-			char buffer[64 * 1024];
+			//char buffer[64 * 1024];
 		};
 	}
 }

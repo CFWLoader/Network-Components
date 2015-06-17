@@ -5,13 +5,13 @@
 using namespace std;
 
 using namespace clown;
-using namespace clown::utilities;
+using namespace clown::basis;
 
 int main(int argc, char* argv[])
 {
 	string filename = "./Temporary Datafiles/LogFiles1.log";
 
-	AppendLogger al(filename);
+	File al(filename);
 
 	string data = "asd56f1as6dg15a641g65a1g35a1dfg\n";
 
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 			data.append("asd56f1as6dg15a641g65a1g35a1dfg\n");
 		}
 
-		al.append(data.c_str(), data.size());
+		al.append(data.data(), data.size());
 
 		data.clear();
 	}

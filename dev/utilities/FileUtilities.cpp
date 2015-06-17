@@ -4,7 +4,7 @@
 #include <cerrno>
 #include <cstring>
 
-clown::utilities::AppendLogger::AppendLogger(const std::string& filename) : 
+clown::basis::File::File(const std::string& filename) : 
 file(::fopen(filename.c_str(), "a+e")), writtenBytes(0)
 {
 	if(file == nullptr)
@@ -13,22 +13,22 @@ file(::fopen(filename.c_str(), "a+e")), writtenBytes(0)
 	}
 }
 
-clown::utilities::AppendLogger::~AppendLogger()
+clown::basis::File::~File()
 {
 	fclose(file);
 }
 
-size_t clown::utilities::AppendLogger::write(const char* input, const size_t length)
+size_t clown::basis::File::write(const char* input, const size_t length)
 {
 	return ::fwrite(input, length, 1, file);
 }
 
-void clown::utilities::AppendLogger::flush()
+void clown::basis::File::flush()
 {
 	::fflush(file);
 }
 
-size_t clown::utilities::AppendLogger::append(const char* input, const size_t length)
+size_t clown::basis::File::append(const char* input, const size_t length)
 {
 	size_t writtenIndex = this->write(input, length), written = 0;
 
@@ -44,7 +44,7 @@ size_t clown::utilities::AppendLogger::append(const char* input, const size_t le
 
 			if(errorNumber)
 			{
-				fprintf(stderr, "Error happend in AppendLogger::append().\n");
+				fprintf(stderr, "Error happend in File::append().\n");
 			}
 
 			break;
