@@ -2,11 +2,11 @@ CC = g++
 
 FLAGS = -std=c++11 -g -Wall -c
 
-TARGET_FILES = FileUtilities.o
+TARGET_FILES = File.o
 
 all: $(TARGET_FILES)
 
-FileUtilities.o: FileUtilities.cpp FileUtilities.h
+File.o: File.cpp File.h
 	$(CC) -o $@ $(FLAGS) $<
 
 clean:
