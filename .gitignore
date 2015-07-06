@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+
+# Specific File Patterns.
+*/CMakeFiles/
