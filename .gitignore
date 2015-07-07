@@ -28,4 +28,4 @@
 *.app
 
 # Specific File Patterns.
-*/CMakeFiles/
+*CMakeFiles/
