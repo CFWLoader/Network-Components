@@ -1,5 +1,5 @@
 #include "TcpServer.h"
-#include "ClownThread.h"
+#include "Event.h"
 
 //POSIX
 #include <sys/types.h>
@@ -100,8 +100,6 @@ int clown::TcpServer::serve()
 
 	epollFD = epoll_create(MAX_CLIENT_NUMBER);
 
-	CallBackOfServerCloseFD callBackFun = std::bind(&clown::TcpServer::closeClientFD, this, std::placeholders::_1);
-
 	if(epollFD == -1)
 	{
 		fprintf(stderr, "Error: epoll_create()\n");
@@ -179,11 +177,33 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
+				clown::Event clientEventThread(
+					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
+					clientEvents[i].data.fd,
+					std::bind(&TcpServer::echoFromThread, this)
+					);
+
+				clientEventThread.happen();
 				//std::cout << "Server: A thread is starting for a client." << std::endl;
+				/*
+				clown::Thread clientThread(std::bind(&clown::TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
+					clientEvents[i].data.fd);
+					*/
+				/*
+				clown::Thread clientThread(
+					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
+					clientEvents[i].data.fd,
+					std::bind(&TcpServer::echoFromThread, this)
+					);
+					*/
+				/*
+				clown::Thread clientThread(clientEvents[i].data.fd, this);
 
-				clown::Thread clientThread(clientEvents[i].data.fd, callBackFun);
+				std::cout << "Server instance address: " << this << std::endl;				
+				*/
 
-				clientThread.start();
+				//clientThread.start();
+				//clientThread.serveFunction();
 				/*
 				nRead = read(clientEvents[i].data.fd, buffer, MAX_LINE);
 
@@ -229,4 +249,9 @@ int clown::TcpServer::setNonBlocking(int sockfd)
 int clown::TcpServer::closeClientFD(int fd)
 {
 	return ::close(fd);
+}
+
+void clown::TcpServer::echoFromThread()
+{
+	std::cout << "The function is invoked by other thread." << std::endl;
 }

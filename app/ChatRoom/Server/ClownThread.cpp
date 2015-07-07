@@ -6,24 +6,71 @@
 #include <string>
 #include <iostream>
 
+namespace clown
+{
+	struct ThreadData
+	{
+		typedef clown::Thread::ThreadFunction ThreadFunction;
+
+		ThreadFunction threadFunction;
+
+		explicit ThreadData(const ThreadFunction&);
+
+		int _start();
+	};
+}
+
+clown::ThreadData::ThreadData(const ThreadFunction& registeringFunction) : threadFunction(registeringFunction)
+{}
+
+int clown::ThreadData::_start()
+{
+	threadFunction();
+
+	return 0;
+}
+
 void* clown::startThread(void* objPtr)
 {
-	clown::Thread* runningThread = static_cast<clown::Thread*>(objPtr);
+	clown::ThreadData* runningThread = static_cast<clown::ThreadData*>(objPtr);
 
-	runningThread->serveFunction();
+	runningThread->_start();
+
+	//std::cout << "In thread: " << runningThread->getTheServerInstance() << std::endl;
+
+	//runningThread->closeConnection();
+	delete runningThread;
 
 	return NULL;
 }
 
-clown::Thread::Thread(int socketFD, TcpServer::CallBackOfServerCloseFD callBack) : 
+clown::Thread::Thread(const ThreadFunction& registerFunction) : threadFunction(registerFunction)
+{}
+
+/*
+clown::Thread::Thread(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD) : 
 	serverCallBack(callBack),
 	clientFD(socketFD)
 {}
 
+clown::Thread::Thread(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD, const std::function<void()>& echoCallBack) :
+	serverCallBack(callBack),
+	clientFD(socketFD),
+	serverEchoCallBack(echoCallBack)
+{}
+*/
+
+/*
+clown::Thread::Thread(int socketFD, clown::TcpServer* theServer) : clientFD(socketFD),
+	theServerHandler(theServer)
+{
+	//std::cout << "In thread constructor: " << theServerHandler << std::endl;
+}
+*/
+
+/*
 void clown::Thread::serveFunction()
 {
-	std::cout << "A thread opened for a client." << std::endl;
-
 	char buffer[MAX_LINE];
 
 	std::string echoMessage;
@@ -36,14 +83,26 @@ void clown::Thread::serveFunction()
 
 		perror("Details: ");
 
-		this->serverCallBack(clientFD);
+		serverCallBack();
+		//::close(clientFD);
+		//theServerHandler->closeClientFD(clientFD);
 	}
 	else if(nRead == 0)
 	{
-		this->serverCallBack(clientFD);
+		//fprintf(stdout, "Client Thread: A connection closed.\n");
+
+		serverCallBack();
+		//::close(clientFD);
+		//theServerHandler->closeClientFD(clientFD);
+
+		//fprintf(stdout, "Client Thread: A connection closed via callBack.\n");
 	}
 	else
 	{
+		//std::cout << "A invoking TcpServer::echoFromThread()." << std::endl;
+
+		serverEchoCallBack();
+
 		buffer[nRead] = '\0';
 
 		echoMessage.append(buffer);
@@ -54,10 +113,16 @@ void clown::Thread::serveFunction()
         echoMessage.clear();
 	}
 }
+*/
 
 int clown::Thread::start()
 {
-	::pthread_create(&theThread, 0, startThread, this);
+	ThreadData* runningInstance = new ThreadData(threadFunction);
+
+	if(::pthread_create(&theThread, 0, &startThread, runningInstance))
+	{
+		delete runningInstance;
+	}
 
 	return 0;
 }

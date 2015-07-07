@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -g -lpthread")
 
 set(SOURCE_FILES
+		Event.h
+		Event.cpp
 		ClownThread.h
 		ClownThread.cpp
 		TcpServer.h

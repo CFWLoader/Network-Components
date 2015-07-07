@@ -6,6 +6,8 @@
 
 #include <functional>
 
+#define MAX_LINE 2048
+
 extern unsigned short SERVER_PORT;
 
 extern size_t MAX_LISTEN_QUEUE;
@@ -17,7 +19,7 @@ namespace clown
 	class TcpServer
 	{
 	public:
-		typedef std::function<int(int)> CallBackOfServerCloseFD;
+		typedef std::function<int()> CallBackOfServerCloseFD;
 
 		TcpServer();
 
@@ -28,6 +30,8 @@ namespace clown
 		int setNonBlocking(int);
 
 		int closeClientFD(int);
+
+		void echoFromThread();
 
 		~TcpServer();
 

@@ -1,5 +1,7 @@
 #include "TcpServer.h"
 
+//static clown::TcpServer theServer;
+
 int main(int argc, char* argv[])
 {
 	clown::TcpServer theServer;
