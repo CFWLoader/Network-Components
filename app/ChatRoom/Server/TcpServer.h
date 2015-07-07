@@ -4,6 +4,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <functional>
+
 extern unsigned short SERVER_PORT;
 
 extern size_t MAX_LISTEN_QUEUE;
@@ -15,6 +17,7 @@ namespace clown
 	class TcpServer
 	{
 	public:
+		typedef std::function<int(int)> CallBackOfServerCloseFD;
 
 		TcpServer();
 
@@ -23,6 +26,8 @@ namespace clown
 		int serve();
 
 		int setNonBlocking(int);
+
+		int closeClientFD(int);
 
 		~TcpServer();
 

@@ -1,4 +1,5 @@
 #include "TcpServer.h"
+#include "ClownThread.h"
 
 //POSIX
 #include <sys/types.h>
@@ -14,14 +15,14 @@
 
 //C++
 #include <vector>
+#include <string>
+#include <iostream>
 
 unsigned short SERVER_PORT = 4433;
 
 size_t MAX_LISTEN_QUEUE = 128;
 
 size_t MAX_CLIENT_NUMBER = 256;
-
-#define MAX_LINE 2048
 
 clown::TcpServer::TcpServer() : socketFileDescriptor(-1)
 {
@@ -87,15 +88,19 @@ int clown::TcpServer::serve()
 
 	int result, nReady, i;
 
-	int nRead;
+	//int nRead;
 
-	char buffer[MAX_LINE];
+	//char buffer[MAX_LINE];
+
+	std::string echoMessage;
 
 	sockaddr_in clientAddress;
 
 	socklen_t clientLength = sizeof(sockaddr);
 
 	epollFD = epoll_create(MAX_CLIENT_NUMBER);
+
+	CallBackOfServerCloseFD callBackFun = std::bind(&clown::TcpServer::closeClientFD, this, std::placeholders::_1);
 
 	if(epollFD == -1)
 	{
@@ -174,6 +179,12 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
+				//std::cout << "Server: A thread is starting for a client." << std::endl;
+
+				clown::Thread clientThread(clientEvents[i].data.fd, callBackFun);
+
+				clientThread.start();
+				/*
 				nRead = read(clientEvents[i].data.fd, buffer, MAX_LINE);
 
 				if(nRead < 0)
@@ -190,8 +201,16 @@ int clown::TcpServer::serve()
 				}
 				else
 				{
-                    write(clientEvents[i].data.fd, buffer, nRead);
+					buffer[nRead] = '\0';
+
+					echoMessage.append(buffer);
+					echoMessage.append("(From Server)\n");
+
+                    write(clientEvents[i].data.fd, echoMessage.c_str(), echoMessage.size());
+
+                    echoMessage.clear();
 				}
+				*/
 			}
 		}
 	}
@@ -205,4 +224,9 @@ int clown::TcpServer::setNonBlocking(int sockfd)
         return -1;
     }
     return 0;
+}
+
+int clown::TcpServer::closeClientFD(int fd)
+{
+	return ::close(fd);
 }

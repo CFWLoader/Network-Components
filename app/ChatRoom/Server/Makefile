@@ -114,6 +114,30 @@ runServer/fast:
 	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/build
 .PHONY : runServer/fast
 
+ClownThread.o: ClownThread.cpp.o
+.PHONY : ClownThread.o
+
+# target to build an object file
+ClownThread.cpp.o:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/ClownThread.cpp.o
+.PHONY : ClownThread.cpp.o
+
+ClownThread.i: ClownThread.cpp.i
+.PHONY : ClownThread.i
+
+# target to preprocess a source file
+ClownThread.cpp.i:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/ClownThread.cpp.i
+.PHONY : ClownThread.cpp.i
+
+ClownThread.s: ClownThread.cpp.s
+.PHONY : ClownThread.s
+
+# target to generate assembly for a file
+ClownThread.cpp.s:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/ClownThread.cpp.s
+.PHONY : ClownThread.cpp.s
+
 ServerTrigger.o: ServerTrigger.cpp.o
 .PHONY : ServerTrigger.o
 
@@ -171,6 +195,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... runServer"
+	@echo "... ClownThread.o"
+	@echo "... ClownThread.i"
+	@echo "... ClownThread.s"
 	@echo "... ServerTrigger.o"
 	@echo "... ServerTrigger.i"
 	@echo "... ServerTrigger.s"
