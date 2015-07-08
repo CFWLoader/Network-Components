@@ -36,9 +36,6 @@ void* clown::startThread(void* objPtr)
 
 	runningThread->_start();
 
-	//std::cout << "In thread: " << runningThread->getTheServerInstance() << std::endl;
-
-	//runningThread->closeConnection();
 	delete runningThread;
 
 	return NULL;

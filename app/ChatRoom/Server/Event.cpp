@@ -15,9 +15,16 @@ clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int sock
 	serverCallBack(callBack),
 	clientFD(socketFD),
 	serverEchoCallBack(echoCallBack)
-{
-}
+{}
 
+clown::Event::Event(int socketFD) :
+	clientFD(socketFD)
+{}
+
+void clown::Event::setCloseCallBack(const CloseCallBack& ccb)
+{
+	serverCallBack = ccb;
+}
 
 void clown::Event::serveFunction()
 {

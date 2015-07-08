@@ -8,16 +8,22 @@ namespace clown
 	class Event{
 	public:
 
+		typedef TcpServer::CallBackOfServerCloseFD CloseCallBack;
+
 		explicit Event(const TcpServer::CallBackOfServerCloseFD&, int);
 
 		explicit Event(const TcpServer::CallBackOfServerCloseFD&, int, const std::function<void()>&);
+
+		explicit Event(int);
+
+		void setCloseCallBack(const CloseCallBack&);
 
 		void serveFunction();
 
 		int happen();
 
 	private:
-		TcpServer::CallBackOfServerCloseFD serverCallBack;
+		CloseCallBack serverCallBack;
 
 		int clientFD;
 

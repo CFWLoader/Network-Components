@@ -190,7 +190,15 @@ int clown::TcpServer::serve()
 					std::bind(&TcpServer::echoFromThread, this)
 					);
 
+				/*
+				clown::Event clientEventThread(clientEvents[i].data.fd);
+
+				clientEventThread.setCloseCallBack(std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)));
+				*/
+
 				clientEventThread.happen();
+				//clientEventThread.serveFunction();
+
 				//std::cout << "Server: A thread is starting for a client." << std::endl;
 				/*
 				clown::Thread clientThread(std::bind(&clown::TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),

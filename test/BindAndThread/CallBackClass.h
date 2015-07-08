@@ -11,6 +11,10 @@ namespace clown
 		void callBackFunction();
 
 		Thread::ThreadFunction getCallBack();
+
+		void busy();
+
+		int sleep();
 	private:
 	};
 }

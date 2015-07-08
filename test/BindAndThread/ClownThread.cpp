@@ -6,11 +6,16 @@
 #include <string>
 #include <iostream>
 
+#include <sys/types.h>
+#include <sys/syscall.h>
+
 namespace clown
 {
 	struct ThreadData
 	{
 		typedef clown::Thread::ThreadFunction ThreadFunction;
+
+		//pid_t threadID = static_cast<pid_t>(::syscall(SYS_gettid));
 
 		ThreadFunction threadFunction;
 
@@ -25,6 +30,13 @@ clown::ThreadData::ThreadData(const ThreadFunction& registeringFunction) : threa
 
 int clown::ThreadData::_start()
 {
+	/*
+	pid_t threadID = static_cast<pid_t>(::syscall(SYS_gettid));
+
+	std::cout << "_start Thread ID: " << threadID << " Started." << std::endl;
+	*/
+	//std::cout << "Thread ID: " << threadID << " Started." << std::endl;
+
 	threadFunction();
 
 	return 0;
@@ -33,6 +45,12 @@ int clown::ThreadData::_start()
 void* clown::startThread(void* objPtr)
 {
 	clown::ThreadData* runningThread = static_cast<clown::ThreadData*>(objPtr);
+	/*
+
+	pid_t threadID = static_cast<pid_t>(::syscall(SYS_gettid));
+
+	std::cout << "Thread ID: " << threadID << " Started.   Message:   ";
+	*/
 
 	runningThread->_start();
 
