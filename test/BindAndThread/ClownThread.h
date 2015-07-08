@@ -3,8 +3,6 @@
 
 #include <functional>
 
-#include "TcpServer.h"
-
 #include <pthread.h>
 
 #define MAX_LINE 2048
@@ -26,6 +24,10 @@ namespace clown
 		//explicit Thread(const TcpServer::CallBackOfServerCloseFD&, int, const std::function<void()>&);
 
 		int start();
+
+		int run();
+
+		int join();
 
 	private:
 

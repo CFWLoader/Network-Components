@@ -4,6 +4,7 @@
 #include <functional>
 
 #include <unistd.h>
+#include <cassert>
 
 clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD) : 
 	serverCallBack(callBack),
@@ -14,7 +15,8 @@ clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int sock
 	serverCallBack(callBack),
 	clientFD(socketFD),
 	serverEchoCallBack(echoCallBack)
-{}
+{
+}
 
 
 void clown::Event::serveFunction()

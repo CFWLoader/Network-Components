@@ -19,6 +19,7 @@ namespace clown
 	class TcpServer
 	{
 	public:
+		//typedef std::function<int()> CallBackOfServerCloseFD;
 		typedef std::function<int()> CallBackOfServerCloseFD;
 
 		TcpServer();

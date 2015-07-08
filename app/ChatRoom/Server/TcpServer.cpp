@@ -53,7 +53,7 @@ int clown::TcpServer::initialize()
 	serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);
 	serverAddress.sin_port = htons(SERVER_PORT);
 
-	int result = bind(socketFileDescriptor, (sockaddr*)&serverAddress, socketLength);
+	int result = ::bind(socketFileDescriptor, (sockaddr*)&serverAddress, socketLength);
 
 	if(result == -1)
 	{
@@ -177,6 +177,13 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
+				/*
+				clown::Event clientEventThread(
+					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
+					clientEvents[i].data.fd,
+					std::bind(&TcpServer::echoFromThread, this)
+					);
+					*/
 				clown::Event clientEventThread(
 					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
 					clientEvents[i].data.fd,
