@@ -114,30 +114,6 @@ runServer/fast:
 	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/build
 .PHONY : runServer/fast
 
-CallBackClass.o: CallBackClass.cpp.o
-.PHONY : CallBackClass.o
-
-# target to build an object file
-CallBackClass.cpp.o:
-	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/CallBackClass.cpp.o
-.PHONY : CallBackClass.cpp.o
-
-CallBackClass.i: CallBackClass.cpp.i
-.PHONY : CallBackClass.i
-
-# target to preprocess a source file
-CallBackClass.cpp.i:
-	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/CallBackClass.cpp.i
-.PHONY : CallBackClass.cpp.i
-
-CallBackClass.s: CallBackClass.cpp.s
-.PHONY : CallBackClass.s
-
-# target to generate assembly for a file
-CallBackClass.cpp.s:
-	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/CallBackClass.cpp.s
-.PHONY : CallBackClass.cpp.s
-
 ClownThread.o: ClownThread.cpp.o
 .PHONY : ClownThread.o
 
@@ -161,6 +137,30 @@ ClownThread.s: ClownThread.cpp.s
 ClownThread.cpp.s:
 	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/ClownThread.cpp.s
 .PHONY : ClownThread.cpp.s
+
+TcpServer.o: TcpServer.cpp.o
+.PHONY : TcpServer.o
+
+# target to build an object file
+TcpServer.cpp.o:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/TcpServer.cpp.o
+.PHONY : TcpServer.cpp.o
+
+TcpServer.i: TcpServer.cpp.i
+.PHONY : TcpServer.i
+
+# target to preprocess a source file
+TcpServer.cpp.i:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/TcpServer.cpp.i
+.PHONY : TcpServer.cpp.i
+
+TcpServer.s: TcpServer.cpp.s
+.PHONY : TcpServer.s
+
+# target to generate assembly for a file
+TcpServer.cpp.s:
+	$(MAKE) -f CMakeFiles/runServer.dir/build.make CMakeFiles/runServer.dir/TcpServer.cpp.s
+.PHONY : TcpServer.cpp.s
 
 test.o: test.cpp.o
 .PHONY : test.o
@@ -195,12 +195,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... runServer"
-	@echo "... CallBackClass.o"
-	@echo "... CallBackClass.i"
-	@echo "... CallBackClass.s"
 	@echo "... ClownThread.o"
 	@echo "... ClownThread.i"
 	@echo "... ClownThread.s"
+	@echo "... TcpServer.o"
+	@echo "... TcpServer.i"
+	@echo "... TcpServer.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

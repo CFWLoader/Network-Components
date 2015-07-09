@@ -13,15 +13,9 @@ namespace clown
 
 	class Thread{
 	public:
-		//typedef std::function<void()> ThreadFunction;
 		typedef std::function<void()> ThreadFunction;
 
 		explicit Thread(const ThreadFunction&);
-
-		//explicit Thread(const TcpServer::CallBackOfServerCloseFD&, int);
-
-		//explicit Thread(int, TcpServer*);
-		//explicit Thread(const TcpServer::CallBackOfServerCloseFD&, int, const std::function<void()>&);
 
 		int start();
 

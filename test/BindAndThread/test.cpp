@@ -1,12 +1,7 @@
-#include "ClownThread.h"
-#include "CallBackClass.h"
+#include "TcpServer.h"
 
 #include <functional>
 #include <iostream>
-
-#include <sys/types.h>
-#include <sys/syscall.h>
-#include <unistd.h>
 
 #include <cstdio>
 
@@ -15,21 +10,21 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	CallBackClass cbc;
+	
+	TcpServer server;
 
-	Thread theThread(cbc.getCallBack());
-
-	pid_t theMainThreadID = static_cast<pid_t>(::syscall(SYS_gettid));
+	//pid_t theMainThreadID = static_cast<pid_t>(::syscall(SYS_gettid));
 
 	//cout << "Main Thread ID: " << static_cast<unsigned long>(theMainThreadID) << end;
 
-	printf("Main Thread ID: %ld\n", theMainThreadID);
-
-	theThread.start();
+	//printf("Main Thread ID: %ld\n", theMainThreadID);
 
 	//theThread.join();
 	//cbc.busy();
-	cbc.sleep();
+
+	server.initialize();
+
+	server.serve();
 
 	return 0;
 }

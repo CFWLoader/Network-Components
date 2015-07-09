@@ -22,13 +22,22 @@ namespace clown
 
 		int happen();
 
+		inline bool isFinished() const;
+
 	private:
 		CloseCallBack serverCallBack;
 
 		int clientFD;
 
 		std::function<void()> serverEchoCallBack;
+
+		bool finishedFlag;
 	};
+}
+
+inline bool clown::Event::isFinished() const
+{
+	return finishedFlag;
 }
 
 #endif

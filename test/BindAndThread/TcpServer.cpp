@@ -1,5 +1,5 @@
 #include "TcpServer.h"
-#include "Event.h"
+#include "ClownThread.h"
 
 //POSIX
 #include <sys/types.h>
@@ -177,50 +177,10 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
-				class EchoClass
-				{
-				public:
-					void echo()
-					{
-						std::cout << "Echoed." << std::endl;
-					}
-				} ins;
+				clown::Thread clientThread(std::bind(&TcpServer::service, this, static_cast<int>(clientEvents[i].data.fd)));
 
-				clown::Event clientEventThread(
-					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
-					clientEvents[i].data.fd,
-					std::bind(&EchoClass::echo, &ins)
-					);
-
-				clientEventThread.happen();
+				clientThread.start();
 				
-				/*
-				nRead = read(clientEvents[i].data.fd, buffer, MAX_LINE);
-
-				if(nRead < 0)
-				{
-					fprintf(stderr, "A client happened exception, close this connection.\n");
-
-					perror("Details: ");
-
-					close(clientEvents[i].data.fd);
-				}
-				else if(nRead == 0)
-				{
-					close(clientEvents[i].data.fd);
-				}
-				else
-				{
-					buffer[nRead] = '\0';
-
-					echoMessage.append(buffer);
-					echoMessage.append("(From Server)\n");
-
-                    write(clientEvents[i].data.fd, echoMessage.c_str(), echoMessage.size());
-
-                    echoMessage.clear();
-				}
-				*/
 			}
 		}
 	}
@@ -239,6 +199,41 @@ int clown::TcpServer::setNonBlocking(int sockfd)
 int clown::TcpServer::closeClientFD(int fd)
 {
 	return ::close(fd);
+}
+
+int clown::TcpServer::service(int fd)
+{
+	char buffer[MAX_LINE];
+
+	std::string echoMessage;
+
+	int nRead = read(fd, buffer, MAX_LINE);
+
+	if(nRead < 0)
+	{
+		fprintf(stderr, "A client happened exception, close this connection.\n");
+
+		perror("Details: ");
+
+		this->closeClientFD(fd);
+	}
+	else if(nRead == 0)
+	{
+		this->closeClientFD(fd);
+	}
+	else
+	{
+		buffer[nRead] = '\0';
+
+		echoMessage.append(buffer);
+		echoMessage.append("(From Server)\n");
+
+        write(fd, echoMessage.c_str(), echoMessage.size());
+
+        echoMessage.clear();
+	}
+
+	return 0;
 }
 
 void clown::TcpServer::echoFromThread()

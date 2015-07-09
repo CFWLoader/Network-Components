@@ -8,17 +8,20 @@
 
 clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD) : 
 	serverCallBack(callBack),
-	clientFD(socketFD)
+	clientFD(socketFD),
+	finishedFlag(false)
 {}
 
 clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD, const std::function<void()>& echoCallBack) :
 	serverCallBack(callBack),
 	clientFD(socketFD),
-	serverEchoCallBack(echoCallBack)
+	serverEchoCallBack(echoCallBack),
+	finishedFlag(false)
 {}
 
 clown::Event::Event(int socketFD) :
-	clientFD(socketFD)
+	clientFD(socketFD),
+	finishedFlag(false)
 {}
 
 void clown::Event::setCloseCallBack(const CloseCallBack& ccb)
@@ -50,7 +53,7 @@ void clown::Event::serveFunction()
 	}
 	else
 	{
-		//serverEchoCallBack();
+		serverEchoCallBack();
 
 		buffer[nRead] = '\0';
 
@@ -71,6 +74,8 @@ int clown::Event::happen()
 	clown::Thread eventThread(registerFunction);
 
 	eventThread.start();
+
+	finishedFlag = true;
 
 	return 0;
 }
