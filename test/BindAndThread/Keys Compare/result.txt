@@ -1,0 +1,61 @@
+*** ClownThread.cpp	2015-07-09 11:46:05.646988000 +0800
+--- ClownThread-new.cpp	2015-07-09 11:29:29.400825000 +0800
+***************
+*** 45,52 ****
+--- 45,59 ----
+  clown::Thread::Thread(const ThreadFunction& registerFunction) : threadFunction(registerFunction)
+  {}
+  
++ clown::Thread::Thread(int fd, const CloseHandler& cb) : 
++ 	targetFD(fd),
++ 	closeHandler(cb)
++ {}
++ 
+  int clown::Thread::start()
+  {
++ 	threadFunction = std::bind(&Thread::serverFunction, this);
++ 
+  	ThreadData* runningInstance = new ThreadData(threadFunction);
+  
+  	if(::pthread_create(&theThread, 0, &startThread, runningInstance))
+***************
+*** 67,70 ****
+--- 74,110 ----
+  int clown::Thread::join()
+  {
+  	return ::pthread_join(theThread, 0);	
++ }
++ 
++ void clown::Thread::serverFunction()
++ {
++ 	char buffer[MAX_LINE];
++ 
++ 	std::string echoMessage;
++ 
++ 	int nRead = read(targetFD, buffer, MAX_LINE);
++ 
++ 	if(nRead < 0)
++ 	{
++ 		fprintf(stderr, "A client happened exception, close this connection.\n");
++ 
++ 		perror("Details: ");
++ 
++ 		closeHandler();
++ 	}
++ 	else if(nRead == 0)
++ 	{
++ 		closeHandler();
++ 	}
++ 	else
++ 	{
++ 		buffer[nRead] = '\0';
++ 
++ 		echoMessage.append(buffer);
++ 		echoMessage.append("(From Server)\n");
++ 
++         write(targetFD, echoMessage.c_str(), echoMessage.size());
++ 
++         echoMessage.clear();
++ 	}
+  }
+\ No newline at end of file

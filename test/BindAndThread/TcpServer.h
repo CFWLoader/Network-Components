@@ -20,7 +20,7 @@ namespace clown
 	{
 	public:
 		//typedef std::function<int()> CallBackOfServerCloseFD;
-		typedef std::function<int()> CallBackOfServerCloseFD;
+		typedef std::function<void()> CallBackOfServerCloseFD;
 
 		TcpServer();
 
@@ -30,7 +30,7 @@ namespace clown
 
 		int setNonBlocking(int);
 
-		int closeClientFD(int);
+		void closeClientFD(int);
 
 		int service(int);
 

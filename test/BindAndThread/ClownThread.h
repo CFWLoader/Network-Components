@@ -5,6 +5,8 @@
 
 #include <pthread.h>
 
+#include "TcpServer.h"
+
 #define MAX_LINE 2048
 
 namespace clown
@@ -15,7 +17,11 @@ namespace clown
 	public:
 		typedef std::function<void()> ThreadFunction;
 
+		typedef TcpServer::CallBackOfServerCloseFD CloseHandler;
+
 		explicit Thread(const ThreadFunction&);
+
+		explicit Thread(int, const CloseHandler&);
 
 		int start();
 
@@ -23,11 +29,17 @@ namespace clown
 
 		int join();
 
+		void serverFunction();
+
 	private:
 
 		ThreadFunction threadFunction;
 
 		pthread_t theThread;
+
+		int targetFD;
+
+		CloseHandler closeHandler;
 
 		//TcpServer* theServerHandler;
 	};

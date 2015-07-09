@@ -177,10 +177,13 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
-				clown::Thread clientThread(std::bind(&TcpServer::service, this, static_cast<int>(clientEvents[i].data.fd)));
+				clown::Thread clientThread(
+					static_cast<int>(clientEvents[i].data.fd),
+					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd))
+					);
 
 				clientThread.start();
-				
+
 			}
 		}
 	}
@@ -196,9 +199,9 @@ int clown::TcpServer::setNonBlocking(int sockfd)
     return 0;
 }
 
-int clown::TcpServer::closeClientFD(int fd)
+void clown::TcpServer::closeClientFD(int fd)
 {
-	return ::close(fd);
+	::close(fd);
 }
 
 int clown::TcpServer::service(int fd)
