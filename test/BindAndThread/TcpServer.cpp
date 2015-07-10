@@ -182,7 +182,7 @@ int clown::TcpServer::serve()
 					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd))
 					);
 
-				clientThread.start();
+				clientThread.run();
 
 			}
 		}

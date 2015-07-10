@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <cassert>
 
+#include <algorithm>
+
 clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD) : 
 	serverCallBack(callBack),
 	clientFD(socketFD),
@@ -22,6 +24,11 @@ clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int sock
 clown::Event::Event(int socketFD) :
 	clientFD(socketFD),
 	finishedFlag(false)
+{}
+
+clown::Event::Event(int socketFD, TcpServer* serverPtr) :
+	clientFD(socketFD),
+	serverPointer(serverPtr)
 {}
 
 void clown::Event::setCloseCallBack(const CloseCallBack& ccb)
@@ -45,20 +52,22 @@ void clown::Event::serveFunction()
 
 		perror("Details: ");
 
-		serverCallBack();
+		serverPointer->closeClientFD(clientFD);
 	}
 	else if(nRead == 0)
 	{
-		serverCallBack();
+		serverPointer->closeClientFD(clientFD);
 	}
 	else
 	{
-		serverEchoCallBack();
+		//serverEchoCallBack();
 
 		buffer[nRead] = '\0';
 
 		echoMessage.append(buffer);
 		echoMessage.append("(From Server)\n");
+
+		echoMessage.erase(std::find(echoMessage.begin(), echoMessage.end(), '\n'));
 
         write(clientFD, echoMessage.c_str(), echoMessage.size());
 

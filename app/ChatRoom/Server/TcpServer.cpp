@@ -177,6 +177,7 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
+				/*
 				class EchoClass
 				{
 				public:
@@ -190,6 +191,11 @@ int clown::TcpServer::serve()
 					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
 					clientEvents[i].data.fd,
 					std::bind(&EchoClass::echo, &ins)
+					);
+					*/
+				clown::Event clientEventThread(
+					clientEvents[i].data.fd,
+					this
 					);
 
 				clientEventThread.happen();

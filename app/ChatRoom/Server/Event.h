@@ -16,6 +16,8 @@ namespace clown
 
 		explicit Event(int);
 
+		explicit Event(int, TcpServer*);
+
 		void setCloseCallBack(const CloseCallBack&);
 
 		void serveFunction();
@@ -32,6 +34,8 @@ namespace clown
 		std::function<void()> serverEchoCallBack;
 
 		bool finishedFlag;
+
+		TcpServer* serverPointer;
 	};
 }
 
