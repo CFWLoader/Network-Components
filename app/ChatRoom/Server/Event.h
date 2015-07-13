@@ -10,15 +10,7 @@ namespace clown
 
 		typedef TcpServer::CallBackOfServerCloseFD CloseCallBack;
 
-		explicit Event(const TcpServer::CallBackOfServerCloseFD&, int);
-
-		explicit Event(const TcpServer::CallBackOfServerCloseFD&, int, const std::function<void()>&);
-
-		explicit Event(int);
-
-		explicit Event(int, TcpServer*);
-
-		void setCloseCallBack(const CloseCallBack&);
+		explicit Event(int, const TcpServer::CallBackOfServerCloseFD&);
 
 		void serveFunction();
 
@@ -27,15 +19,12 @@ namespace clown
 		inline bool isFinished() const;
 
 	private:
-		CloseCallBack serverCallBack;
 
 		int clientFD;
 
-		std::function<void()> serverEchoCallBack;
+		CloseCallBack serverCallBack;
 
 		bool finishedFlag;
-
-		TcpServer* serverPointer;
 	};
 }
 

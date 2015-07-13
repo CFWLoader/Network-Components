@@ -177,28 +177,14 @@ int clown::TcpServer::serve()
 			}
 			else
 			{
-				/*
-				class EchoClass
-				{
-				public:
-					void echo()
-					{
-						std::cout << "Echoed." << std::endl;
-					}
-				} ins;
 
-				clown::Event clientEventThread(
-					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd)),
+				//Here should be a pointer or leading the object destructs in this thread and other thread use a bad object.
+				clown::Event* clientEventThread = new clown::Event(
 					clientEvents[i].data.fd,
-					std::bind(&EchoClass::echo, &ins)
-					);
-					*/
-				clown::Event clientEventThread(
-					clientEvents[i].data.fd,
-					this
+					std::bind(&TcpServer::closeClientFD, this, static_cast<int>(clientEvents[i].data.fd))
 					);
 
-				clientEventThread.happen();
+				clientEventThread->happen();
 				
 				/*
 				nRead = read(clientEvents[i].data.fd, buffer, MAX_LINE);

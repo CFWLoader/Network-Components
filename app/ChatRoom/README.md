@@ -1,9 +1,10 @@
 #	Chat Room
 -	The little project is under experiment.
 
+### Fixed Problems
+-	The invoke of binded function will crash the server program when the server use multithreading.
+	-	Reason: Object isn't a pointer and will be destructed in the server thread.The service thread references an invalid object and crashed because invoke the function of an invalid function.
+	-	Solution: Use pointer to cancel the life-cycle management.Use Shared pointer to intelligently manage the instances.
+
 ### Current Problems
--	Unknown Reason: The invoke of binded function will crash the server program when the server use multithreading.
-	-	Probable Reason 1: The the binded function is stack-private.But when I pass a pointer pointing to the server, the pointer
-		do effect.
-	-	Probable Reason 2: The binded function is an c++ object, the crash happened in thread_create's 4th parameter is a pointer.
-		A static_cast can't invoke the constructor of binded function and the content of binded function haven't been initialized.
+-	Manage the Event instance pointers via intelligent pointer.

@@ -8,37 +8,14 @@
 
 #include <algorithm>
 
-clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD) : 
+clown::Event::Event(int socketFD, const TcpServer::CallBackOfServerCloseFD& callBack) : 
+	clientFD(socketFD),
 	serverCallBack(callBack),
-	clientFD(socketFD),
 	finishedFlag(false)
 {}
-
-clown::Event::Event(const TcpServer::CallBackOfServerCloseFD& callBack, int socketFD, const std::function<void()>& echoCallBack) :
-	serverCallBack(callBack),
-	clientFD(socketFD),
-	serverEchoCallBack(echoCallBack),
-	finishedFlag(false)
-{}
-
-clown::Event::Event(int socketFD) :
-	clientFD(socketFD),
-	finishedFlag(false)
-{}
-
-clown::Event::Event(int socketFD, TcpServer* serverPtr) :
-	clientFD(socketFD),
-	serverPointer(serverPtr)
-{}
-
-void clown::Event::setCloseCallBack(const CloseCallBack& ccb)
-{
-	serverCallBack = ccb;
-}
 
 void clown::Event::serveFunction()
 {
-	//fprintf(stdout, "serveFunction.\n");
 
 	char buffer[MAX_LINE];
 
@@ -52,22 +29,19 @@ void clown::Event::serveFunction()
 
 		perror("Details: ");
 
-		serverPointer->closeClientFD(clientFD);
+		serverCallBack();
 	}
 	else if(nRead == 0)
 	{
-		serverPointer->closeClientFD(clientFD);
+		serverCallBack();
 	}
 	else
 	{
-		//serverEchoCallBack();
 
 		buffer[nRead] = '\0';
 
 		echoMessage.append(buffer);
 		echoMessage.append("(From Server)\n");
-
-		echoMessage.erase(std::find(echoMessage.begin(), echoMessage.end(), '\n'));
 
         write(clientFD, echoMessage.c_str(), echoMessage.size());
 
