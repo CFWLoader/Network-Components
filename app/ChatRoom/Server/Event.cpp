@@ -47,6 +47,8 @@ void clown::Event::serveFunction()
 
         echoMessage.clear();
 	}
+
+	delete this;
 }
 
 int clown::Event::happen()
