@@ -4,7 +4,7 @@ FLAGS = -std=c++11 -g -Wall
 
 HEADERDIR = ..
 
-TARGET_FILES = NoncopyableTest AppendLoggerTest
+TARGET_FILES = NoncopyableTest AppendLoggerTest MutexLockTest
 
 TEMPORARY_FILES_DIR = ./Temporary\ Datafiles
 
@@ -15,6 +15,9 @@ NoncopyableTest: NoncopyableTest.cpp  $(HEADERDIR)/Noncopyable.hpp
 
 AppendLoggerTest: AppendLoggerTest.cpp $(HEADERDIR)/FileUtilities.o
 	$(CC) -o $@ $< $(FLAGS)
+
+MutexLockTest: MutexLockTest.cpp $(HEADERDIR)/MutexLock.o
+	$(CC) -o $@ $^ $(FLAGS) -lpthread
 
 clean:
 	rm -rf *.o
