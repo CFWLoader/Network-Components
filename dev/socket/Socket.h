@@ -12,8 +12,6 @@ namespace clown
 			int getSocketFileDescriptor() const;
 		private:
 			int socketFileDescriptor;
-
-			sockaddr_in netAddress;
 	};
 }
 
