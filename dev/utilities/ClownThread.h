@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "TcpServer.h"
+#include "Noncopyable.hpp"
 
 #include <pthread.h>
 
@@ -13,7 +13,7 @@ namespace clown
 {
 	void* startThread(void*);
 
-	class Thread{
+	class Thread : public utilities::Noncopyable{
 	public:
 
 		typedef std::function<void()> ThreadFunction;
