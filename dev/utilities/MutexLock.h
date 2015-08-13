@@ -22,6 +22,17 @@ namespace clown
 	private:
 		pthread_mutex_t theMutexLock;
 	};
+
+	class MutexLockGuard : public utilities::Noncopyable
+	{
+	public:
+		 explicit MutexLockGuard(MutexLock&);
+
+		 ~MutexLockGuard();
+	private:
+
+		MutexLock& theLock;
+	};
 }
 
 #endif

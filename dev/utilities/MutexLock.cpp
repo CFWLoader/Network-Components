@@ -21,3 +21,13 @@ void MutexLock::unlock()
 {
 	pthread_mutex_unlock(&theMutexLock);
 }
+
+MutexLockGuard::MutexLockGuard(MutexLock& theMutexLock) : theLock(theMutexLock)
+{
+	theLock.lock();
+}
+
+MutexLockGuard::~MutexLockGuard()
+{
+	theLock.unlock();
+}
