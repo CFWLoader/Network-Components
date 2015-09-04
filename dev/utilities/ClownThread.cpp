@@ -55,3 +55,14 @@ int clown::Thread::start()
 
 	return 0;
 }
+
+
+void clown::Thread::setRunningFlag(bool flagValue)
+{
+	isRunning = flagValue;
+}
+
+bool clown::Thread::getRunningFlag() const
+{
+	return isRunning;
+}

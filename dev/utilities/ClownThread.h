@@ -22,11 +22,17 @@ namespace clown
 
 		int start();
 
+		void setRunningFlag(bool);
+
+		bool getRunningFlag() const;
+
 	private:
 
 		ThreadFunction threadFunction;
 
 		pthread_t theThread;
+
+		bool isRunning;
 
 	};
 }
