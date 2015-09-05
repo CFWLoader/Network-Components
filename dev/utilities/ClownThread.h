@@ -7,8 +7,6 @@
 
 #include <pthread.h>
 
-#define MAX_LINE 2048
-
 namespace clown
 {
 	void* startThread(void*);
