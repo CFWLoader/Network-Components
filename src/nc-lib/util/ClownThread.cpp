@@ -1,10 +1,10 @@
-#include "ClownThread.h"
-
 #include <unistd.h>
 #include <cstdio>
 
 #include <string>
 #include <iostream>
+
+#include <ClownThread.h>
 
 namespace clown
 {

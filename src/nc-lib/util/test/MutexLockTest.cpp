@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/syscall.h>
 
-#include "../MutexLock.h"
+#include <MutexLock.h>
 
 class MultiThreadCounter
 {

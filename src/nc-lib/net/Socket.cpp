@@ -1,6 +1,6 @@
-#include "Socket.h"
-
 #include <iostream>
+
+#include <Socket.h>
 
 clown::Socket::Socket()
 {

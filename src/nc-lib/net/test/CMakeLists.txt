@@ -1,0 +1,7 @@
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include/net")
+
+LINK_DIRECTORIES("${PROJECT_BINARY_DIR}/lib/net")
+
+ADD_EXECUTABLE(test_net test.cpp)
+
+TARGET_LINK_LIBRARIES(test_net nc_net)

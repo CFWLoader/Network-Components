@@ -1,6 +1,9 @@
 #include <iostream>
-#include "../File.h"
-#include "../File.cpp"
+
+//#include "../File.h"
+//#include "../File.cpp"
+
+#include <File.h>
 
 using namespace std;
 

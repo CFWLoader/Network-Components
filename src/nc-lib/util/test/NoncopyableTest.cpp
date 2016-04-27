@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../Noncopyable.hpp"
+#include <Noncopyable.hpp>
 
 using namespace clown;
 using namespace clown::utilities;

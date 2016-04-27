@@ -1,8 +1,8 @@
-#include "File.h"
-
 #include <cstdio>
 #include <cerrno>
 #include <cstring>
+
+#include <File.h>
 
 clown::basis::File::File(const std::string& filename) : 
 file(::fopen(filename.c_str(), "a+e")), writtenBytes(0)
