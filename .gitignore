@@ -29,3 +29,4 @@
 
 # Specific File Patterns.
 *CMakeFiles/
+build/

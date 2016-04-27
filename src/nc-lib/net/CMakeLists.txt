@@ -1,0 +1,3 @@
+SET(NET_PKG_SRC_LIST Socket.h Socket.cpp)
+
+ADD_LIBRARY(nc_net SHARED ${NET_PKG_SRC_LIST})

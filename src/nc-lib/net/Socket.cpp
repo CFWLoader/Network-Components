@@ -1,5 +1,7 @@
 #include "Socket.h"
 
+#include <iostream>
+
 clown::Socket::Socket()
 {
 	socketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0);

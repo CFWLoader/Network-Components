@@ -2,3 +2,10 @@ PROJECT(nc)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+SET(CXX_FLAGS "-g -Wall -std=c++11")
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS}")
+
+MESSAGE(STATUS "Building the whole project.")
+
+ADD_SUBDIRECTORY(src/nc-lib lib)
