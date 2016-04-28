@@ -1,4 +1,4 @@
-project(TcpServer)
+# project(TcpServer)
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -12,4 +12,4 @@ set(SOURCE_FILES
 		test.cpp
 	)
 
-add_executable(runServer ${SOURCE_FILES})
+add_executable(runServer-multi ${SOURCE_FILES})

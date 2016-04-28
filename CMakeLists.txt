@@ -11,3 +11,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS}")
 MESSAGE(STATUS "Building the whole project.")
 
 ADD_SUBDIRECTORY(src/nc-lib lib)
+
+ADD_SUBDIRECTORY(src/app app)
+
+ADD_SUBDIRECTORY(src/test test)
