@@ -3,9 +3,9 @@
 
 #include "GlobalConfigurations.h"
 
-namespace clown
+namespace nc
 {
-	namespace utilities
+	namespace util
 	{
 		class Noncopyable
 		{

@@ -4,7 +4,7 @@
 
 #include <File.h>
 
-clown::basis::File::File(const std::string& filename) : 
+nc::util::File::File(const std::string& filename) : 
 file(::fopen(filename.c_str(), "a+e")), writtenBytes(0)
 {
 	if(file == nullptr)
@@ -13,22 +13,22 @@ file(::fopen(filename.c_str(), "a+e")), writtenBytes(0)
 	}
 }
 
-clown::basis::File::~File()
+nc::util::File::~File()
 {
 	fclose(file);
 }
 
-size_t clown::basis::File::write(const char* input, const size_t length)
+size_t nc::util::File::write(const char* input, const size_t length)
 {
 	return ::fwrite(input, length, 1, file);
 }
 
-void clown::basis::File::flush()
+void nc::util::File::flush()
 {
 	::fflush(file);
 }
 
-size_t clown::basis::File::append(const char* input, const size_t length)
+size_t nc::util::File::append(const char* input, const size_t length)
 {
 	size_t writtenIndex = this->write(input, length), written = 0;
 

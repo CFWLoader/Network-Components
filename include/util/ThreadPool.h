@@ -3,19 +3,22 @@
 
 #include "Noncopyable.hpp"
 
-namespace clown
+namespace nc
 {
-	class Thread;
-
-	class ThreadPool : public utilities::Noncopyable
+	namespace util
 	{
-	public:
-	private:
-		
-		Thread* threads;
+		class Thread;
 
-		int numberOfThread;
-	};
+		class ThreadPool : public Noncopyable
+		{
+		public:
+		private:
+			
+			Thread* threads;
+
+			int numberOfThread;
+		};
+	}
 }
 
 #endif

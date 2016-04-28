@@ -5,34 +5,37 @@
 
 #include "Noncopyable.hpp"
 
-namespace clown
+namespace nc
 {
-	class MutexLock : public utilities::Noncopyable
+	namespace util
 	{
-	public:
+		class MutexLock : public Noncopyable
+		{
+		public:
 
-		MutexLock();
+			MutexLock();
 
-		~MutexLock();
+			~MutexLock();
 
-		void lock();
+			void lock();
 
-		void unlock();
+			void unlock();
 
-	private:
-		pthread_mutex_t theMutexLock;
-	};
+		private:
+			pthread_mutex_t theMutexLock;
+		};
 
-	class MutexLockGuard : public utilities::Noncopyable
-	{
-	public:
-		 explicit MutexLockGuard(MutexLock&);
+		class MutexLockGuard : public Noncopyable
+		{
+		public:
+			 explicit MutexLockGuard(MutexLock&);
 
-		 ~MutexLockGuard();
-	private:
+			 ~MutexLockGuard();
+		private:
 
-		MutexLock& theLock;
-	};
+			MutexLock& theLock;
+		};
+	}
 }
 
 #endif

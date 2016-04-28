@@ -4,15 +4,18 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-namespace clown
+namespace nc
 {	
-	class Socket{
-		public:
-			Socket();
-			int getSocketFileDescriptor() const;
-		private:
-			int socketFileDescriptor;
-	};
+	namespace net
+	{
+		class Socket{
+			public:
+				Socket();
+				int getSocketFileDescriptor() const;
+			private:
+				int socketFileDescriptor;
+		};
+	}
 }
 
 #endif

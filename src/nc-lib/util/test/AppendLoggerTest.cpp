@@ -7,8 +7,8 @@
 
 using namespace std;
 
-using namespace clown;
-using namespace clown::basis;
+using namespace nc;
+using namespace nc::util;
 
 int main(int argc, char* argv[])
 {

@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
 int testCase1()
 {
-	clown::Socket socket;
+	nc::net::Socket socket;
 
 	cout << socket.getSocketFileDescriptor() << endl;
 

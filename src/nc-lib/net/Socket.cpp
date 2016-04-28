@@ -2,7 +2,7 @@
 
 #include <Socket.h>
 
-clown::Socket::Socket()
+nc::net::Socket::Socket()
 {
 	socketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -11,7 +11,7 @@ clown::Socket::Socket()
 	}
 }
 
-int clown::Socket::getSocketFileDescriptor() const
+int nc::net::Socket::getSocketFileDescriptor() const
 {
 	return socketFileDescriptor;
 }

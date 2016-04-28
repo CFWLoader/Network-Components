@@ -5,9 +5,9 @@
 
 #include <arpa/inet.h>
 
-namespace clown
+namespace nc
 {
-	namespace utilities
+	namespace system
 	{
 		
 	}

@@ -8,12 +8,10 @@
 
 #include "Noncopyable.hpp"
 
-namespace clown
+namespace nc
 {
-	namespace basis
+	namespace util
 	{
-		using namespace utilities;
-
 		class File : public Noncopyable
 		{
 		public:

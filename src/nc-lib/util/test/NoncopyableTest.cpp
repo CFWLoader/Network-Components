@@ -2,8 +2,8 @@
 
 #include <Noncopyable.hpp>
 
-using namespace clown;
-using namespace clown::utilities;
+using namespace nc;
+using namespace nc::util;
 
 using namespace std;
 

@@ -1,6 +1,6 @@
 #include <MutexLock.h>
 
-using namespace clown;
+using namespace nc::util;
 
 MutexLock::MutexLock()
 {

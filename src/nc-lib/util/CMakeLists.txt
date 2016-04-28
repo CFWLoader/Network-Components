@@ -1,7 +1,7 @@
 SET(UTIL_PKG_SRC_LIST 
 	File.cpp
 	MutexLock.cpp
-	ClownThread.cpp
+	NcThread.cpp
 	ThreadPool.cpp
 )
 

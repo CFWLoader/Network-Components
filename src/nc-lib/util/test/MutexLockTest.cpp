@@ -25,7 +25,7 @@ public:
 
 private:
 
-	clown::MutexLock mutexLock;
+	nc::util::MutexLock mutexLock;
 
 	int countValue;
 };

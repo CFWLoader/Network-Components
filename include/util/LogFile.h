@@ -5,9 +5,9 @@
 
 #include "File.h"
 
-namespace clown
+namespace nc
 {
-	namespace utilities
+	namespace util
 	{
 		class LogFile : public Noncopyable
 		{
