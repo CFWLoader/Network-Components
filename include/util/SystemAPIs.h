@@ -1,5 +1,5 @@
-#ifndef SYSTEMNETENCAPSULATION_H_
-#define SYSTEMNETENCAPSULATION_H_
+#ifndef SYSTEMAPIS_H_
+#define SYSTEMAPIS_H_
 
 #include "GlobalConfigurations.h"
 
