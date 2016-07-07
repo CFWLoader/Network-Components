@@ -1,5 +1,7 @@
 # Network-Components
 
+## This branch is almost a copy of muduo and those are some modify of the original muduo.
+
 This project is linux-based library network components and using c++ 11 programming priciples.<br/>
 
 ### Document 'nc-lib' is the components I encapsulated from linux C interface to C++ classes.<br/>
