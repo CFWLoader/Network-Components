@@ -1,7 +1,5 @@
-#ifndef NONCOPYABLE_HPP_
-#define NONCOPYABLE_HPP_
-
-#include "GlobalConfigurations.h"
+#ifndef UTIL_NONCOPYABLE_HPP_
+#define UTIL_NONCOPYABLE_HPP_
 
 namespace nc
 {
@@ -12,7 +10,7 @@ namespace nc
 			public:
 				Noncopyable(){}
 				~Noncopyable(){}
-#ifdef CPP11
+#if __cplusplus >= 201103L
 				Noncopyable(const Noncopyable&) = delete;
 				Noncopyable& operator=(const Noncopyable&) = delete;
 #else
