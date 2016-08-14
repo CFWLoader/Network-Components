@@ -1,7 +1,7 @@
 #ifndef FILEUTILITIES_H_
 #define FILEUTILITIES_H_
 
-#include "GlobalConfigurations.h"
+// #include "GlobalConfigurations.h"
 
 #include <stdio.h>
 #include <string>
