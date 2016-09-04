@@ -77,5 +77,5 @@ namespace nc
 		Condition notEmpty_;
 
 		std::deque<T> queue_;
-	}
+	};
 }

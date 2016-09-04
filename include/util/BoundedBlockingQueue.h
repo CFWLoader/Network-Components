@@ -13,8 +13,20 @@ namespace nc
 	template<typename T>
 	class BoundedBlockingQueue : util::Noncopyable
 	{
-		
-	}
+	public:
+
+		using namespace util;
+
+	private:
+
+		mutable MutexLock mutex_;
+
+		Condition notEmpty_;
+
+		Condition notFull_;
+
+
+	};
 }
 
 #endif
