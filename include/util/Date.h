@@ -38,6 +38,35 @@ namespace nc
 			std::swap(julianDayNumber_, that.julianDayNumber_);
 		}
 
+		bool valid() const
+		{
+			return julianDayNumber_ > 0;
+		}
+
+		string toIsoString() const;
+
+		struct YearMonthDay yearMonthDay() const;
+
+		int year() const
+		{
+			return yearMonthDay().year;
+		}
+
+		int month() const
+		{
+			return yearMonthDay().month;
+		}
+
+		int day() const
+		{
+			return yearMonthDay().day;
+		}
+
+		int weekDay() const
+		{
+			return 
+		}
+
 	private:
 
 		int julianDayNumber_;
