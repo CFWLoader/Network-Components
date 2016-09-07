@@ -118,7 +118,74 @@ namespace nc
 		}
 
 		void removePrefix(int n)
+		{
+			ptr_ += n;
+			length_ -= n;
+		}
 
+		bool operator==(const StringPiece& x) const
+		{
+			return ((length_ == x.length_) && (memcmp(ptr_, x.ptr_, length_) == 0));
+		}
+
+		bool operator!=(const StringPiece& x) const
+		{
+			return !(*this == x);
+		}
+
+		#define STRINGPIECE_BINARY_PREDICATE(cmp, auxcmp)
+			bool operator cmp (const StringPiece& x) const {								\
+				int r = memcmp(ptr_, x.ptr_, length_ < x.length_ ? length_ : x.length_);	\
+				return ((r auxcmp 0) || ((r == 0) && (length_ cmp x.length_)));				\
+			}
+
+			STRINGPIECE_BINARY_PREDICATE(<, <);
+			STRINGPIECE_BINARY_PREDICATE(<=, <);
+			STRINGPIECE_BINARY_PREDICATE(>=, >);
+			STRINGPIECE_BINARY_PREDICATE(>, >);
+
+		#undef STRINGPIECE_BINARY_PREDICATE
+
+		int compare(const StringPiece& x) const
+		{
+			int r = memcmp(ptr_, x.ptr_, length_ < x.length_ ? length_ : x.length_);
+
+			if(r == 0)
+			{
+				if(length_ < x.length_)
+				{
+					r = -1;
+				}
+				else if(length_ > x.length_)
+				{
+					r = 1;
+				}
+			}
+
+			return r;
+		}
+
+		string as_string() const
+		{
+			return string(data(), size());
+		}
+
+		void CopyToString(string* target) const
+		{
+			target->assign(ptr_, length_);
+		}
+
+#ifndef NC_STD_STRING
+		void CopyToString(std::string* target) const
+		{
+			target->assign(ptr_, length_);
+		}
+#endif
+
+		bool starts_with(StringPiece& x) const
+		{
+			return ((length_ >= x.length_) && (memcmp(ptr_, x.ptr_, x.length_) == 0));
+		}
 
 	private:
 
@@ -126,7 +193,22 @@ namespace nc
 
 		int length_;
 
-	}
+	};
 }
+
+#ifdef HAVE_TYPE_TRAITS
+
+template<> struct __type_traits<nc::StringPiece>
+{
+	typedef __true_type has_trivial_default_constructor;
+	typedef __true_type has_trivial_copy_constructor;
+	typedef __true_type has_trivial_assignment_operator;
+	typedef __true_type has_trivial_destructor;
+	typedef __true_type is_POD_type;
+};
+
+#endif
+
+std::ostream& operator<<(std::ostream&o, const nc::StringPiece& piece);
 
 #endif
