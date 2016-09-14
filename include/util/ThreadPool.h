@@ -1,24 +1,82 @@
-#ifndef THREADPOOL_H_
-#define THREADPOOL_H_
+#ifndef UTIL_THREADPOOL_H_
+#define UTIL_THREADPOOL_H_
 
-#include "Noncopyable.hpp"
+#include <nc/util/Condition.h>
+#include <nc/util/Mutex.h>
+#include <nc/util/Thread.h>
+#include <nc/util/Types.h>
+#include <nc/util/Noncopyable.hpp>
+
+#include <functional>
+
+#include <nc/auxiliary/ptr_vector.hpp>
+
 
 namespace nc
 {
-	namespace util
+	class ThreadPool : util::Noncopyable
 	{
-		class Thread;
+	public:
 
-		class ThreadPool : public Noncopyable
+		typedef std::function<void()> Task;
+
+		explicit ThreadPool(const string& nameArg = string("ThreadPool"));
+
+		~ThreadPool();
+
+		void setMaxQueueSize(int maxSize)
 		{
-		public:
-		private:
-			
-			Thread* threads;
+			maxQueueSize_ = maxSize;
+		}
 
-			int numberOfThread;
-		};
-	}
+		void setThreadInitCallback(const Task& cb)
+		{
+			threadInitCallback_ = cb;
+		}
+
+		void start(int numThreads);
+
+		void stop();
+
+		const string& name() const
+		{
+			return name_;
+		}
+
+		size_t queueSize() const;
+
+		void run(const Task& f);
+
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+		void run(Task&& f);
+#endif
+
+	private:
+
+		bool isFull() const;
+
+		void runInThread();
+
+		Task take();
+
+		mutable MutexLock mutex_;
+
+		Condtion notEmpty_;
+
+		Condtion notFull_;
+
+		string name_;
+
+		Task threadInitCallback_;
+
+		aux::ptr_vector<nc::Thread> threads_;
+
+		std::deque<Task> queue_;
+
+		size_t maxQueueSize_;
+
+		bool running_;
+	};
 }
 
 #endif

@@ -48,7 +48,43 @@ namespace nc
 
 			t_value_ = 0;
 		}
+
+		class Deleter
+		{
+		public:
+
+			Deleter()
+			{
+				pthread_key_create(&pkey_, &ThreadLocalSingleton::destructor);
+			}
+
+			~Deleter()
+			{
+				pthread_key_delete(pkey_);
+			}
+
+			void set(T* newObj)
+			{
+				assert(pthread_getspecific(pkey_) == NULL);
+
+				pthread_setspecific(pkey_, newObj);
+			}
+
+			pthread_key_t pkey_;
+
+		private:
+		};
+
+		static __thread T* t_value_;
+
+		static Deleter deleter_;
 	};
+
+	template<typename T>
+	__thread T* ThreadLocalSingleton<T>::t_value_ = 0;
+
+	template<typename T>
+	typename ThreadLocalSingleton<T>::Deleter ThreadLocalSingleton<T>::deleter_;
 }
 
 #endif
