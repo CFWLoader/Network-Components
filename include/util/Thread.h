@@ -20,9 +20,7 @@ namespace nc
 
 		explicit Thread(const ThreadFunc&, const string& name = string());
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X_
 		explicit Thread(ThreadFunc&&, const string& name = string());
-#endif
 
 		~Thread();
 

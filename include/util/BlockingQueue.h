@@ -28,8 +28,6 @@ namespace nc
 			notEmpty_.nofity();
 		}
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-
 		void put(T&& x)
 		{
 			MutexLockGuard lock(mutex_);
@@ -38,8 +36,6 @@ namespace nc
 
 			notEmpty_.nofity();
 		}
-
-#endif
 
 		T take()
 		{

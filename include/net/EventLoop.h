@@ -54,11 +54,9 @@ namespace nc
 
 			size_t queueSize() const;
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
 			void runInLoop(const Functor&& cb);
 
 			void queueInLoop(const Functor&& cb);
-#endif
 
 			TimerId runAt(const Timestamp& time, const TimerCallback& cb);
 
@@ -68,14 +66,11 @@ namespace nc
 
 			void cancel(TimerId timerid);
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-
 			TimerId runAt(const Timestamp& time, TimerCallback&& cb);
 
 			TimerId runAfter(double delay, const TimerCallback&& cb);
 
 			TimerId runEvery(double interval, TimerCallback&& cb);
-#endif
 
 			void wakeup();
 

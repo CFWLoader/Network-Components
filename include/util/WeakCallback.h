@@ -6,8 +6,6 @@
 
 namespace nc
 {
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-
 	template<typename CLASS, typename... ARGS>
 	class WeakCallback
 	{
@@ -50,50 +48,47 @@ namespace nc
 		return WeakCallback<CLASS, ARGS...>(object, function);
 	}
 
-#else
+	// template<typename CLASS>
+	// class WeakCallback
+	// {
+	// public:
 
-	template<typename CLASS>
-	class WeakCallback
-	{
-	public:
+	// 	WeakCallback(const boost::weak_ptr<CLASS>& object,
+	// 		const boost::function<void(CLASS*)>& function) :
+	// 			object_(object), function_(function)
+	// 	{}
 
-		WeakCallback(const boost::weak_ptr<CLASS>& object,
-			const boost::function<void(CLASS*)>& function) :
-				object_(object), function_(function)
-		{}
+	// 	void operator()() const
+	// 	{
+	// 		boost::shared_ptr<CLASS> ptr(object_.lock);
 
-		void operator()() const
-		{
-			boost::shared_ptr<CLASS> ptr(object_.lock);
+	// 		if(ptr)
+	// 		{
+	// 			function_(ptr.get());
+	// 		}
+	// 	}
 
-			if(ptr)
-			{
-				function_(ptr.get());
-			}
-		}
+	// private:
 
-	private:
+	// 	boost::weak_ptr<CLASS> object_;
 
-		boost::weak_ptr<CLASS> object_;
+	// 	boost::function<void(CLASS*)> function_;
+	// };
 
-		boost::function<void(CLASS*)> function_;
-	};
+	// template<typename CLASS>
+	// WeakCallback<CLASS> makeWeakCallback(const boost::shared_ptr,
+	// 	void (CLASS::*function)())
+	// {
+	// 	return WeakCallback<CLASS>(obejct, function);
+	// }
 
-	template<typename CLASS>
-	WeakCallback<CLASS> makeWeakCallback(const boost::shared_ptr,
-		void (CLASS::*function)())
-	{
-		return WeakCallback<CLASS>(obejct, function);
-	}
+	// template<typename CLASS>
+	// WeakCallback<CLASS> makeWeakCallback(const boost::shared_ptr<CLASS>& object,
+	// 	void (CLASS::*function)() const)
+	// {
+	// 	return WeakCallback<CLASS>(object, function);
+	// }
 
-	template<typename CLASS>
-	WeakCallback<CLASS> makeWeakCallback(const boost::shared_ptr<CLASS>& object,
-		void (CLASS::*function)() const)
-	{
-		return WeakCallback<CLASS>(object, function);
-	}
-
-#endif
 }
 
 #endif

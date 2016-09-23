@@ -47,8 +47,6 @@ namespace nc
 				errorCallback_ = cb;
 			}
 
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-
 			void setReadCallback(ReadEventCallback&& cb)
 			{
 				readCallback_ = std::move(cb);
@@ -68,8 +66,6 @@ namespace nc
 			{
 				errorCallback_ = std::move(cb);
 			}
-
-#endif
 
 			void tie(const std::shared_ptr<void>&);
 
