@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-#include <NcThread.h>
+#include <Thread.h>
 
 namespace nc
 {
