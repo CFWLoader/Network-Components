@@ -1,4 +1,4 @@
-#include <nc/util/Timezone.h>
+#include <nc/util/TimeZone.h>
 #include <nc/util/Date.h>
 #include <nc/util/Noncopyable.hpp>
 
@@ -200,8 +200,68 @@ namespace nc
 					int32_t isstdcnt = f.readInt32();
 
 					int32_t leapcnt = f.readInt32();
+
+					int32_t timecnt = f.readInt32();
+
+					int32_t timecnt = f.readInt32();
+
+					int32_t charcnt = f.readInt32();
+
+					vector<int32_t> trans;
+
+					vector<int32_t> localtimes;
+
+					trans.reserve(timecnt);
+
+					for (int i = 0; i < timecnt; ++i)
+					{
+						trans.push_back(f.readInt32);
+					}
+
+					for (int i = 0; i < timecnt; ++i)
+					{
+						uint8_t local = f.readUInt8();
+
+						localtimes.push_back(local);
+					}
+
+					for (int i = 0; i < typecnt; ++i)
+					{
+						int32_t gmtoff = f.readInt32();
+
+						uint8_t isdst = f.readUInt8();
+
+						uint8_t abbrind = f.readUInt8();
+
+						data->localtimes.push_back(Localtime(gmtoff, isdst, abbrind));
+					}
+
+					for (int i = 0; i < timecnt; ++i)
+					{
+						int localIdx = localtimes[i];
+
+						time_t localtime = trans[i] + data->localtimes[localidx].gmtOffset;
+
+						data->transitions.push_back(Transition(trans[i], localtime, localIdx));
+					}
+
+					data->abbreviation = f.readBytes(charcnt);
+
+					for (int i = 0; i < leapcnt; ++i)
+					{
+						/* code */
+					}
+
+					(void) isstdcnt;
+					(void) isgmtcnt;
+				}
+				catch(logic_error& e)
+				{
+					fprintf(stderrm "%s\n", e.what());
 				}
 			}
+
+			return true;
 		}
 	}
 }
