@@ -263,5 +263,175 @@ namespace nc
 
 			return true;
 		}
+
+		const Localtime* findLocaltime(const TimeZone::Data& data, Transition sentry, Comp comp)
+		{
+			const Localtime* local = NULL;
+
+			if(data.transitions.empty() || comp(sentry, data.transitions.front()))
+			{
+				local = &data.localtimes.front();
+			}
+			else
+			{
+				vector<Transition>::const_iterator transI = lower_bound(data.transitions.begin(),
+					data.transitions.end(),
+					sentry,
+					comp);
+
+				if(transI != data.transitions.end())
+				{
+					if(!comp.equal(sentry, *transI))
+					{
+						assert(transI != data.transitions.begin());
+
+						--transI;
+					}
+					else
+					{
+						local = &data.localtimes[data.transitions.back().localtimeIdx];
+					}
+				}
+			}
+
+			return local;
+		}
 	}
+}
+
+TimeZone::TimeZone(const char* zonefile) :
+	data_(new TimeZone::Data)
+{
+	if(!detail::readTimeZoneFile(zonefile, data_.get()))
+	{
+		data_.reset();
+	}
+}
+
+TimeZone::TimeZone(int eastOfUtc, const char* name) :
+	data_(new TimeZone::Data)
+{
+	data_->localtimes.push_back(detail::Localtime(eastOfUtc, false, 0));
+
+	data_->abbreviation = name;
+}
+
+struct tm TimeZone::toLocalTime(time_t seconds) const
+{
+	struct tm localTime;
+
+	bzero(&localTime, sizeof(localTime));
+
+	assert(data_ != NULL);
+
+	const Data& data(*data_);
+
+	detail::Transition sentry(seconds, 0, 0);
+
+	const detail::Localtime* local = findLocaltime(data, sentry, detail::Comp(true));
+
+	if(local)
+	{
+		time_t localSeconds = seconds + local->gmtOffset;
+
+		::gmtime_r(&localSeconds, &localTime);
+
+		localTime.tm_isdst = local->isDst;
+
+		localTime.tm_gmtoff = local->gmtOffset;
+
+		localTime.tm_zone = &data.abbreviation[local->arrbIdx];
+	}
+
+	return localTime;
+}
+
+time_t TimeZone::fromLocalTime(const struct tm& localTm) const
+{
+	assert(data_ != NULL);
+
+	const Data& data(*data_);
+
+	struct tm tmp = localTm;
+
+	time_t seconds = ::timegm(&tmp);
+
+	detail::Transition sentry(0, secondes, 0);
+
+	const detail::Localtime* local = findLocaltime(data, sentry, detail::Comp(false));
+
+	if(localTm.tm_isdst)
+	{
+		struct tm tryTm = toLocalTime(seconds - local->gmtOffset);
+
+		if(!tryTm.tm_isdst
+			&& tryTm.tm_hour == localTm.tm_hour
+			&& tryTm.tm_min == localTm.tm_min)
+		{
+			seconds -= 3600;
+		}
+	}
+
+	return seconds - local->gmtOffset;
+}
+
+struct tm TimeZone::toUtcTime(time_t secondsSinceEpoch, bool yday)
+{
+	struct tm utc;
+
+	bzero(&utc, sizeof(utc));
+
+	utc.tm_zone = "GMT";
+
+	int seconds = static_cast<int>(secondsSinceEpoch % kSecondsPerDay);
+
+	int days = static_cast<int>(secondsSinceEpoch / kSecondsPerDay);
+
+	if(seconds < 0)
+	{
+		seconds += kSecondsPerDay;
+
+		--days;
+	}
+
+	detail::fillHMS(seconds, &utc);
+
+	Date date(days + Data::kJulianDayOf1970_01_01);
+
+	Date::YearMonthDay ymd = date.yearMonthDay();
+
+	utc.tm_year = ymd.year - 1900;
+
+	utc.tm_mon = ymd.month - 1;
+
+	utc.tm_mday = ymd.day;
+
+	utc.tm_wday = ymd.weekDay();
+
+	if(yday)
+	{
+		Date startOfYear(ymd.year, 1, 1);
+
+		utc.tm_yday = date.julianDayNumber() - startOfYear.julianDayNumber();
+	}
+
+	return utc;
+}
+
+tim_t TimeZone::fromUtcTime(const struct tm& utc)
+{
+	return fromUtcTime(utc.tm_year + 1900, utc.tm_mon + 1, utc.tm_mday,
+		utc.tm_hour, utc.tm_min, utc.tm_sec);
+}
+
+time_t TimeZone::fromUtcTime(int year, int month, int day,
+	int hour, int minute, int seconds)
+{
+	Date date(year, month, day);
+
+	int secondsInDay = hour * 3600 + minute * 60 + seconds;
+
+	time_t days = date.julianDayNumber() - Date::kJulianDayOf1970_01_01;
+
+	return days * kSecondsPerDay + secondsInDay;
 }
