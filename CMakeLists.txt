@@ -1,4 +1,4 @@
-PROJECT(nc)
+PROJECT(Soran)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
@@ -8,10 +8,10 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS}")
 
 # SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-MESSAGE(STATUS "Building the whole project.")
+# MESSAGE(STATUS "Building the whole project.")
 
-ADD_SUBDIRECTORY(src/nc-lib lib)
+# ADD_SUBDIRECTORY(src/soran soran)
 
-ADD_SUBDIRECTORY(src/app app)
+# ADD_SUBDIRECTORY(src/app app)
 
-ADD_SUBDIRECTORY(src/test test)
+# ADD_SUBDIRECTORY(src/test test)

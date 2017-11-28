@@ -1,1 +1,0 @@
-ADD_SUBDIRECTORY(ChatRoom ChatRoom)

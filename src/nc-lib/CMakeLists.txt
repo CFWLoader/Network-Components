@@ -1,3 +1,0 @@
-ADD_SUBDIRECTORY(util util)
-
-ADD_SUBDIRECTORY(net net)
