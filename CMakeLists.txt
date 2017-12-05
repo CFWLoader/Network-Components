@@ -6,6 +6,12 @@ SET(CXX_FLAGS "-g -Wall -std=c++11")
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS}")
 
+SET(SOURCE_FILES main.cpp Thread.h Thread.cpp)
+
+ADD_EXECUTABLE(soran ${SOURCE_FILES})
+
+TARGET_LINK_LIBRARIES(soran pthread)
+
 # SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # MESSAGE(STATUS "Building the whole project.")

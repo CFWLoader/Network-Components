@@ -1,7 +1,7 @@
 #ifndef __SORAN_THREAD__
 #define __SORAN_THREAD__
 
-#include <thread.h>
+#include <pthread.h>
 #include <functional>
 
 namespace soran
@@ -20,7 +20,9 @@ namespace soran
 
 	private:
 
-		pthread_t threadId;
+		pthread_t threadId_;
+
+		std::function<void()> task_;
 
 	};
 }
