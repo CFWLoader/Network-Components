@@ -49,10 +49,14 @@ int Thread::start()
 
 int Thread::join()
 {
-	return 0;
+	int retVal = pthread_join(threadId_, nullptr);
+
+	return retVal;
 }
 
 int Thread::detach()
 {
-	return 0;
+	int retVal = pthread_detach(threadId_);
+
+	return retVal;
 }
