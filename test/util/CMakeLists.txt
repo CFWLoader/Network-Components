@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(ThreadTest)
+ADD_SUBDIRECTORY(ThreadPoolTest)
