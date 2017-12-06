@@ -1,7 +1,8 @@
-#include "Thread.h"
 #include <iostream>
 
-using namespace soran;
+#include <util/Thread.h>
+
+using namespace soran::util;
 
 struct ThreadAgent
 {

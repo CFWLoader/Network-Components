@@ -3,10 +3,10 @@
 
 #include <unistd.h>
 
-#include "Thread.h"
+#include <util/Thread.h>
 
 using namespace std;
-using namespace soran;
+using namespace soran::util;
 
 int main(int argc, char* argv[])
 {

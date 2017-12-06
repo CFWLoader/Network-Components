@@ -1,0 +1,7 @@
+LINK_DIRECTORIES(${PROJECT_BINARY_DIR}/lib/util)
+
+SET(SOURCE_FILES ThreadTest.cpp)
+
+ADD_EXECUTABLE(thread_test ${SOURCE_FILES})
+
+TARGET_LINK_LIBRARIES(thread_test soran_util)
