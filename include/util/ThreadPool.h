@@ -23,6 +23,8 @@ namespace soran
 
 			int joinAll();
 
+			int submit(const std::function<void()>&);
+
 		private:
 
 			std::vector<Thread*> threads_;

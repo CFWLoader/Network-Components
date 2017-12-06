@@ -13,15 +13,27 @@ ThreadPool::ThreadPool(unsigned int poolSize) :
 {
 	bool& sdSig(shutdownSignal_);
 
+	std::queue<std::function<void()>>& tasksQueue(tasksQueue_);
+
 	for(unsigned int idx = 0; idx < poolSize; ++idx)
 	{
-		threads_[idx] = new Thread([&sdSig]()
+		threads_[idx] = new Thread([&sdSig, &tasksQueue]()
 			{
 				while(!sdSig)
 				{
+					// std::cout << "Thread " << pthread_self() << " is working." << std::endl;
+
+					while(tasksQueue.empty());
+
+					std::function<void()> task = tasksQueue.front();
+
 					std::cout << "Thread " << pthread_self() << " is working." << std::endl;
 
-					sleep(1);
+					task();
+
+					tasksQueue.pop();
+
+					// sleep(1);
 				}
 
 				std::cout << "Thread " << pthread_self() << " received SIG_SHUTDOWN." << std::endl;				
@@ -61,6 +73,13 @@ int ThreadPool::joinAll()
 	}
 
 	std::cout << "Thread " << pthread_self() << " joined all." << std::endl;
+
+	return 0;
+}
+
+int ThreadPool::submit(const std::function<void()>& fun)
+{
+	tasksQueue_.push(fun);
 
 	return 0;
 }
