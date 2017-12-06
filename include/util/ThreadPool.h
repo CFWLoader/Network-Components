@@ -19,6 +19,10 @@ namespace soran
 
 			~ThreadPool();
 
+			int shutdownAll();
+
+			int joinAll();
+
 		private:
 
 			std::vector<Thread*> threads_;

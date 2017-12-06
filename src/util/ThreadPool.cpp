@@ -23,15 +23,19 @@ ThreadPool::ThreadPool(unsigned int poolSize) :
 
 					sleep(1);
 				}
+
+				std::cout << "Thread " << pthread_self() << " received SIG_SHUTDOWN." << std::endl;				
 			});
 
 		threads_[idx]->start();
 	}
 
-	for(unsigned int idx = 0; idx < poolSize; ++idx)
-	{
-		threads_[idx]->join();
-	}
+	// for(unsigned int idx = 0; idx < poolSize; ++idx)
+	// {
+	// 	threads_[idx]->join();
+	// }
+
+	// std::cout << "Thread " << pthread_self() << " joined all." << std::endl;
 }
 
 ThreadPool::~ThreadPool()
@@ -40,4 +44,23 @@ ThreadPool::~ThreadPool()
 	{
 		delete threads_[idx];
 	}
+}
+
+int ThreadPool::shutdownAll()
+{
+	shutdownSignal_ = true;	
+
+	return 0;
+}
+
+int ThreadPool::joinAll()
+{
+	for(unsigned int idx = 0; idx < threads_.size(); ++idx)
+	{
+		threads_[idx]->join();
+	}
+
+	std::cout << "Thread " << pthread_self() << " joined all." << std::endl;
+
+	return 0;
 }
