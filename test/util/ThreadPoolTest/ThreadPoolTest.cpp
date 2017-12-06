@@ -12,20 +12,20 @@ int main(int argc, char* argv[])
 {
 	ThreadPool* threadPool = new ThreadPool(3);
 
-	for(int idx = 0; idx < 100; ++idx)
+	for(int idx = 0; idx < 100000000; ++idx)
 	{
 		threadPool->submit([idx](){
 			cout << "Hello!" << idx << endl;
 		});
 	}
 
-	sleep(4);
-
-	// cout << "Sending kill signal." << endl;
-
-	// threadPool.shutdownAll();
-
 	threadPool->joinAll();
+
+	while(threadPool->hasTasks());
+
+	cout << "Sending kill signal." << endl;
+
+	threadPool->shutdownAll();
 
 	return 0;
 }

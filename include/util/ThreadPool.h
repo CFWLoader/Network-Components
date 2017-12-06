@@ -23,6 +23,10 @@ namespace soran
 
 			int joinAll();
 
+			int detachAll();
+
+			bool hasTasks() const;
+
 			int submit(const std::function<void()>&);
 
 		private:

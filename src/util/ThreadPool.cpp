@@ -77,6 +77,21 @@ int ThreadPool::joinAll()
 	return 0;
 }
 
+int ThreadPool::detachAll()
+{
+	for(unsigned int idx = 0; idx < threads_.size(); ++idx)
+	{
+		threads_[idx]->detach();
+	}
+
+	return 0;
+}
+
+bool ThreadPool::hasTasks() const
+{
+	return tasksQueue_.empty();
+}
+
 int ThreadPool::submit(const std::function<void()>& fun)
 {
 	tasksQueue_.push(fun);
