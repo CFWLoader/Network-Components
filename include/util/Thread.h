@@ -1,5 +1,5 @@
-#ifndef __SORAN_THREAD__
-#define __SORAN_THREAD__
+#ifndef __SORAN_UTIL_THREAD__
+#define __SORAN_UTIL_THREAD__
 
 #include <pthread.h>
 #include <functional>

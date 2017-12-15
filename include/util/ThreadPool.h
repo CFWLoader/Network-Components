@@ -1,5 +1,5 @@
-#ifndef __SORAN_THREADPOOL__
-#define __SORAN_THREADPOOL__
+#ifndef __SORAN_UTIL_THREADPOOL__
+#define __SORAN_UTIL_THREADPOOL__
 
 #include <vector>
 #include <queue>
